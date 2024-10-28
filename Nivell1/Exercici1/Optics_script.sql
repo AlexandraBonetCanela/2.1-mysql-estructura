@@ -9,7 +9,8 @@ CREATE TABLE providers (
 	post_code CHAR (5),
 	telephone INT UNSIGNED,
 	fax VARCHAR (20),
-	NIF CHAR (9)
+	NIF CHAR (9),
+    UNIQUE INDEX uidx_NIF (NIF)
 );
 
 CREATE TABLE glasses (
