@@ -1,8 +1,8 @@
-CREATE DATABASE optics;
+CREATE DATABASE IF NOT EXISTS optics;
 
 USE optics;
 
-CREATE TABLE supplier (
+CREATE TABLE IF NOT EXISTS supplier (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR (256) NOT NULL,
 	street_name VARCHAR (256) NOT NULL,
@@ -17,14 +17,14 @@ CREATE TABLE supplier (
     UNIQUE INDEX uidx_NIF (NIF)
 );
 
-CREATE TABLE brand (
+CREATE TABLE IF NOT EXISTS brand (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR (256) NOT NULL,
     supplier_id INT UNSIGNED NOT NULL,
     CONSTRAINT fk_brand_supplier_id FOREIGN KEY (supplier_id) REFERENCES supplier(id)
 );
 
-CREATE TABLE glasses (
+CREATE TABLE IF NOT EXISTS glasses (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	left_eye_prescription VARCHAR (250),
 	right_eye_prescription VARCHAR (250),
@@ -37,7 +37,7 @@ CREATE TABLE glasses (
     CONSTRAINT fk_glasses_brand_id FOREIGN KEY (brand_id) REFERENCES brand(id)
 );
 
-CREATE TABLE client (
+CREATE TABLE IF NOT EXISTS client (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(256) NOT NULL,
     address VARCHAR(256) NOT NULL,
@@ -48,13 +48,13 @@ CREATE TABLE client (
     CONSTRAINT fk_client_recommended_client FOREIGN KEY (recommended_client) REFERENCES client(id)
 );
 
-CREATE TABLE employee (
+CREATE TABLE IF NOT EXISTS employee (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR (256) NOT NULL,
     NIF CHAR (9) NOT NULL
 );
 
-CREATE TABLE purchase
+CREATE TABLE IF NOT EXISTS purchase
 (
     id          INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     client_id   INT UNSIGNED NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE purchase
     CONSTRAINT fk_purchase_client_id FOREIGN KEY (client_id) REFERENCES client (id)
 );
 
-CREATE TABLE purchase_details (
+CREATE TABLE IF NOT EXISTS purchase_details (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     purchase_id INT UNSIGNED,
     glasses_id INT UNSIGNED NOT NULL,
