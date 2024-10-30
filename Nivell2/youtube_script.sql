@@ -2,21 +2,21 @@ CREATE DATABASE IF NOT EXISTS youtube;
 
 USE youtube;
 
+CREATE TABLE IF NOT EXISTS country (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(256) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS user (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(256) NOT NULL,
     email VARCHAR(256) NOT NULL,
     password VARCHAR(256) NOT NULL,
-    date_birth DATE,
-    gender ENUM('MALE', 'FEMALE', 'PREFER_NOT_SAY', 'NON_BINARY'),
-    country_id INT UNSIGNED,
+    date_birth DATE NOT NULL,
+    gender ENUM('MALE', 'FEMALE', 'PREFER_NOT_SAY', 'NON_BINARY') NOT NULL,
+    country_id INT UNSIGNED NOT NULL,
     post_code CHAR(5),
     CONSTRAINT fk_user_country_id FOREIGN KEY (country_id) REFERENCES country(id)
-);
-
-CREATE TABLE IF NOT EXISTS country (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(256) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS video (
@@ -29,9 +29,9 @@ CREATE TABLE IF NOT EXISTS video (
     thumbail_path VARCHAR(256) NOT NULL,
     total_views BIGINT UNSIGNED NOT NULL,
     total_likes BIGINT UNSIGNED NOT NULL,
-    total_disklike BIGINT UNSIGNED NOT NULL,
-    state ENUM('PUBLIC', 'PRIVATE', 'HIDDEN'),
-    user_id INT NOT NULL,
+    total_dislikes BIGINT UNSIGNED NOT NULL,
+    state ENUM('PUBLIC', 'PRIVATE', 'HIDDEN') NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
     published_date DATETIME NOT NULL,
     CONSTRAINT fk_video_user_id FOREIGN KEY (user_id) REFERENCES user(id)
 );
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS subscriber (
 
 CREATE TABLE IF NOT EXISTS video_reaction (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    reaction_type ENUM ('LIKE', 'DISLIKE'),
+    reaction_type ENUM ('LIKE', 'DISLIKE') NOT NULL,
     video_id      INT UNSIGNED NOT NULL,
     user_id       INT UNSIGNED NOT NULL,
     time          DATETIME NOT NULL,
@@ -82,8 +82,11 @@ CREATE TABLE IF NOT EXISTS video_reaction (
 CREATE TABLE IF NOT EXISTS playlist (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(256) NOT NULL,
+    state ENUM('PUBLIC', 'PRIVATE') NOT NULL,
     user_id INT UNSIGNED NOT NULL,
-    date_created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    date_created DATETIME NOT NULL,
+    CONSTRAINT fk_playlist_user_id FOREIGN KEY (user_id) REFERENCES user(id),
+    UNIQUE INDEX uidx_name_user_id (name, user_id)
 );
 
 CREATE TABLE IF NOT EXISTS comment (
@@ -97,12 +100,11 @@ CREATE TABLE IF NOT EXISTS comment (
 
 CREATE TABLE IF NOT EXISTS comment_reaction (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    reaction_type ENUM ('LIKE', 'DISLIKE'),
+    reaction_type ENUM ('LIKE', 'DISLIKE') NOT NULL,
     time DATETIME NOT NULL,
     user_id INT UNSIGNED NOT NULL,
     comment_id INT UNSIGNED NOT NULL,
-    time DATETIME NOT NULL,
     CONSTRAINT fk_cr_user_id FOREIGN KEY (user_id) REFERENCES user(id),
     CONSTRAINT fk_cr_comment_id FOREIGN KEY (comment_id) REFERENCES comment(id),
     UNIQUE INDEX uidx_cr_user_id_comment_id (comment_id, user_id)
-)
+);
