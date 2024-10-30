@@ -204,3 +204,11 @@ VALUES (1, 9),
        (3, 11);
 
 
+SELECT SUM(po.drink_items), t.name FROM purchase_order po
+         INNER JOIN client c on po.client_id = c.id
+         INNER JOIN town t on c.town_id = t.id
+WHERE t.name = 'Barcelona';
+
+SELECT COUNT(d.id) AS 'Ana deliveries' FROM delivery d
+INNER JOIN employee e on d.delivery_person_id = e.id
+WHERE e.name = 'Ana';
