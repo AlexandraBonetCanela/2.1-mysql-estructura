@@ -139,11 +139,68 @@ VALUES ('Lleida', 3),
         ('Olot', 2);
 
 SELECT * FROM town;
-
+select * from client;
 INSERT INTO client (name, surnames, address, post_code, town_id, province_id, telephone)
 VALUES ('José Antonio', 'Velazquez Mayordomo', 'Avinguda de València 3, 4rt 5a', 25001, 1, 3, 674332211),
         ('Maria Cristina', 'Garcia Garcia', 'Carrer Aribau 456, 4rt 5a', 08011, 11, 1, 654321234),
-        ('Juanito', 'Peque', );
+        ('Juanito', 'Peque', 'Carrer Palafurjell 45, 4r 6r', 21004, 27, 2, 655435676);
 
 INSERT INTO shop (address, post_code, town_id, province_id)
-VALUES ()
+VALUES ('Avinguda Ricard Vinyes 45', 25003, 1, 3),
+       ('Avinguda Paralel 35', 08009, 11, 1),
+       ('Avinguda Pikachu 34', 29078, 21, 4),
+       ('Avinguda Ernest Bannach 23', 34588, 27, 2);
+
+INSERT INTO product (name, description, category, image_url, price)
+VALUES ('Maxi Burger', 'Maxi Burger amb formatge i ceba', 'BURGER', 'http://fksgisgsf.jpeg', 8.00),
+       ('Mini Burger', 'Mini Burger amb formatge i ceba', 'BURGER', 'http://fsjdfsdf.jpeg', 3.00),
+       ('Chicken Burger', 'Burger de pollastre amb formatge i ceba', 'BURGER', 'http://esfsedfs.jpeg', 6.00),
+       ('Double Maxi Burger', 'Maxi Burger amb doble porcio de vedella, formatge i ceba', 'BURGER', 'http://sefsfsf.jpeg', 11.00),
+       ('Fanta Orange', 'Fanta taronja', 'DRINK', 'http://fdsgfsdfs/jpeg', 2.30),
+       ('Coca Cola', 'Coca cola, la de veritat', 'DRINK', 'http://efsdfsd.jpeg', 2.30),
+       ('Coca Cola Zero', 'Coca cola zero', 'DRINK', 'http://sfsfsd.jpeg', 2.30),
+       ('Sweeps', 'Swweeps', 'DRINK', 'http://sfsdfsf.jpeg', 2.30),
+       ('Pizza 4 formatges', 'Pizza 4 formatges amb Brie, formatge blau, feta i emmental', 'PIZZA', 'http://sfsfsd.jpeg', 13.34),
+       ('Pizza Margarita', 'Pizza Margarita, base de tomata i emmental', 'PIZZA', 'http://sfsfsd.jpeg', 10.89),
+       ('Pizza 4 estacions', 'Pizza amb Peperoni, romesco, chili i allioli', 'PIZZA', 'http://sfsfsd.jpeg', 13.45);
+
+
+INSERT INTO pizza_category (name)
+VALUES ('Classic'),
+       ('Specialty'),
+       ('Vegetarian'),
+       ('Spicy');
+
+
+INSERT INTO pizza (product_id, pizza_category_id)
+VALUES (9, 1),
+       (10, 1),
+       (11, 2);
+
+
+INSERT INTO purchase_order (date, type, total_price, pizza_items, burger_items, drink_items, shop_id, client_id)
+VALUES ('2024-10-29 18:45:00', 'TO_COLLECT', 25.50, 2, 1, 1, 1, 1),
+       ('2024-10-29 19:00:00', 'TAKE_AWAY', 40.00, 3, 2, 2, 2, 2),
+       ('2024-10-29 19:30:00', 'TO_COLLECT', 13.45, 1, 0, 1, 3, 3);
+
+
+INSERT INTO employee (name, surnames, NIF, type, shop_id)
+VALUES ('Carlos', 'Gomez Ramirez', '12345678A', 'CHEF', 1),
+       ('Ana', 'Lopez Sanchez', '87654321B', 'DRIVER', 2),
+       ('Miguel', 'Garcia Fernandez', '11223344C', 'DRIVER', 3);
+
+
+INSERT INTO delivery (purchase_order_id, delivery_person_id, delivery_time)
+VALUES (1, 2, '2024-10-29 19:15:00'),
+       (2, 3, '2024-10-29 19:45:00');
+
+INSERT INTO purchase_order_detail (purchase_order_id, product_id)
+VALUES (1, 9),
+       (1, 2),
+       (1, 5),
+       (2, 10),
+       (2, 1),
+       (2, 6),
+       (3, 11);
+
+
