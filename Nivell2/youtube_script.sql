@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS youtube;
 
 USE youtube;
 
-CREATE TABLE user (
+CREATE TABLE IF NOT EXISTS user (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(256) NOT NULL,
     email VARCHAR(256) NOT NULL,
@@ -14,12 +14,12 @@ CREATE TABLE user (
     CONSTRAINT fk_user_country_id FOREIGN KEY (country_id) REFERENCES country(id)
 );
 
-CREATE TABLE country (
+CREATE TABLE IF NOT EXISTS country (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(256) NOT NULL
 );
 
-CREATE TABLE video (
+CREATE TABLE IF NOT EXISTS video (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(256) NOT NULL,
     description VARCHAR(256) NOT NULL,
@@ -36,14 +36,14 @@ CREATE TABLE video (
     CONSTRAINT fk_video_user_id FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-CREATE TABLE tag (
+CREATE TABLE IF NOT EXISTS tag (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(256) NOT NULL,
     UNIQUE INDEX uidx_tag_name (name)
 );
 
 
-CREATE TABLE video_tag (
+CREATE TABLE IF NOT EXISTS video_tag (
     video_id INT UNSIGNED NOT NULL,
     tag_id INT UNSIGNED NOT NULL,
     CONSTRAINT fk_video_tag_video_id FOREIGN KEY (video_id) REFERENCES video(id),
@@ -51,7 +51,7 @@ CREATE TABLE video_tag (
     UNIQUE INDEX uidx_video_id_tag_id (video_id, tag_id)
 );
 
-CREATE TABLE channel (
+CREATE TABLE IF NOT EXISTS channel (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(256) NOT NULL,
     description VARCHAR(256) NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE channel (
     CONSTRAINT fk_channel_creator_id FOREIGN KEY (creator_id) REFERENCES user(id)
 );
 
-CREATE TABLE subscriber (
+CREATE TABLE IF NOT EXISTS subscriber (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     channel_id INT UNSIGNED NOT NULL,
     subscriber_id INT UNSIGNED NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE subscriber (
     UNIQUE INDEX uidx_subscriber_channel_subscriber (channel_id, subscriber_id)
 );
 
-CREATE TABLE video_reaction (
+CREATE TABLE IF NOT EXISTS video_reaction (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     reaction_type ENUM ('LIKE', 'DISLIKE'),
     video_id      INT UNSIGNED NOT NULL,
@@ -79,14 +79,14 @@ CREATE TABLE video_reaction (
     UNIQUE INDEX uidx_vr_video_id_user_id (video_id, user_id)
 );
 
-CREATE TABLE playlist (
+CREATE TABLE IF NOT EXISTS playlist (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(256) NOT NULL,
     user_id INT UNSIGNED NOT NULL,
     date_created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE comment (
+CREATE TABLE IF NOT EXISTS comment (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     text VARCHAR(256) NOT NULL,
     user_id INT UNSIGNED NOT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE comment (
     CONSTRAINT fk_comment_video_id FOREIGN KEY (video_id) REFERENCES video(id)
 );
 
-CREATE TABLE comment_reaction (
+CREATE TABLE IF NOT EXISTS comment_reaction (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     reaction_type ENUM ('LIKE', 'DISLIKE'),
     time DATETIME NOT NULL,
