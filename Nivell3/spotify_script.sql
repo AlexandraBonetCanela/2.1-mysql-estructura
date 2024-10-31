@@ -32,8 +32,8 @@ CREATE TABLE IF NOT EXISTS subscription (
 CREATE TABLE IF NOT EXISTS credit_card (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     card_number INT UNSIGNED NOT NULL,
-    expiration_month TINYINT UNSIGNED NOT NULL,
-    expiration_year TINYINT UNSIGNED NOT NULL,
+    expiration_month TINYINT UNSIGNED CHECK (expiration_month BETWEEN 1 AND 12) NOT NULL,
+    expiration_year YEAR NOT NULL,
     security_code TINYINT UNSIGNED NOT NULL,
     user_id INT UNSIGNED NOT NULL,
     CONSTRAINT fk_credit_card_user_id FOREIGN KEY (user_id) REFERENCES user(id)
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS album (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(250) NOT NULL,
     artist_id INT UNSIGNED NOT NULL,
-    release_date DATETIME NOT NULL,
+    year_released YEAR NOT NULL,
     cover_image_url VARCHAR(250),
     CONSTRAINT fk_album_artist_id FOREIGN KEY (artist_id) REFERENCES artist(id)
 );
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS playlist_details (
     playlist_id INT UNSIGNED NOT NULL,
     song_id INT UNSIGNED NOT NULL,
     user_id INT UNSIGNED NOT NULL,
-    added_date DATETIME NOT NULL,
+    added_date DATE NOT NULL,
     CONSTRAINT fk_pd_playlist_id FOREIGN KEY (playlist_id) REFERENCES playlist(id),
     CONSTRAINT fk_pd_song_id FOREIGN KEY (song_id) REFERENCES song(id),
     CONSTRAINT fk_pf_user_id FOREIGN KEY (user_id) REFERENCES user(id),
@@ -146,5 +146,4 @@ CREATE TABLE IF NOT EXISTS song_favourites (
     user_id INT UNSIGNED NOT NULL,
     CONSTRAINT fk_song_fav_song_id FOREIGN KEY (song_id) REFERENCES song(id),
     CONSTRAINT fk_song_fav_user_id FOREIGN KEY (user_id) REFERENCES user(id)
-)
-
+);
