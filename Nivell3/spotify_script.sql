@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS user(
     gender ENUM('MALE', 'FEMALE', 'PREFER_NOT_SAY', 'NON_BINARY') NOT NULL,
     country_id INT UNSIGNED,
     post_code CHAR(5),
-    CONSTRAINT fk_user_country_id FOREIGN KEY (country_id) REFERENCES country(id)
+    CONSTRAINT fk_user_country_id FOREIGN KEY (country_id) REFERENCES country(id),
+    UNIQUE INDEX uidx_user_username (username)
 );
 
 CREATE TABLE IF NOT EXISTS subscription (
@@ -31,7 +32,7 @@ CREATE TABLE IF NOT EXISTS subscription (
 
 CREATE TABLE IF NOT EXISTS credit_card (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    card_number INT UNSIGNED NOT NULL,
+    card_number BIGINT UNSIGNED NOT NULL,
     expiration_month TINYINT UNSIGNED CHECK (expiration_month BETWEEN 1 AND 12) NOT NULL,
     expiration_year YEAR NOT NULL,
     security_code TINYINT UNSIGNED NOT NULL,
