@@ -18,11 +18,8 @@ INSERT INTO credit_card (card_number, expiration_month, expiration_year, securit
 INSERT INTO paypal (username, user_id) VALUES
 ('XipIXop_paypal', 2);
 
-INSERT INTO payment (date, total_price, user_id, subscription_id) VALUES
-('2024-01-01 10:00:00', 9.99, 2, 1);
-
-INSERT INTO payment_credit_card (payment_id, credit_card_id) VALUES
-(1, 1);
+INSERT INTO payment (date, total_price, user_id, subscription_id, credit_card_id) VALUES
+('2024-01-01 10:00:00', 9.99, 2, 1, 1);
 
 INSERT INTO artist (name, img_urg) VALUES
 ('Ateez', 'img1_url'),

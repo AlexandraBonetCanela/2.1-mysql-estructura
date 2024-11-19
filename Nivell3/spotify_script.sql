@@ -53,23 +53,13 @@ CREATE TABLE IF NOT EXISTS payment (
     total_price DECIMAL(10,2) CHECK(total_price >= 0),
     user_id INT UNSIGNED NOT NULL,
     subscription_id INT UNSIGNED NOT NULL,
+    paypal_id INT UNSIGNED NULL,
+    credit_card_id INT UNSIGNED NULL,
     CONSTRAINT fk_payment_subscription_id FOREIGN KEY (subscription_id) REFERENCES subscription(id),
-    CONSTRAINT fk_payment_user_id FOREIGN KEY (user_id) REFERENCES user(id)
-);
-
-CREATE TABLE IF NOT EXISTS payment_credit_card (
-    payment_id INT UNSIGNED NOT NULL,
-    credit_card_id INT UNSIGNED NOT NULL,
-    CONSTRAINT fk_pcc_subcription_id FOREIGN KEY (payment_id) REFERENCES payment(id),
-    CONSTRAINT fk_pcc_credit_card_id FOREIGN KEY (credit_card_id) REFERENCES credit_card(id),
-    UNIQUE INDEX uidx_subscription_id_credit_card (payment_id,credit_card_id)
-);
-
-CREATE TABLE IF NOT EXISTS payment_paypal (
-    payment_id INT UNSIGNED NOT NULL,
-    paypal_id INT UNSIGNED NOT NULL,
-    CONSTRAINT fk_pp_payment_id FOREIGN KEY (payment_id) REFERENCES payment(id),
-    CONSTRAINT fk_pp_paypal_id FOREIGN KEY (paypal_id) REFERENCES paypal(id)
+    CONSTRAINT fk_payment_paypal_id FOREIGN KEY (paypal_id) REFERENCES paypal(id),
+    CONSTRAINT fk_payment_credit_card_id FOREIGN KEY (credit_card_id) REFERENCES credit_card(id),
+    CONSTRAINT fk_payment_user_id FOREIGN KEY (user_id) REFERENCES user(id),
+    CHECK (paypal_id IS NOT NULL OR credit_card_id IS NOT NULL)
 );
 
 CREATE TABLE IF NOT EXISTS playlist (
