@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS town (
     CONSTRAINT fk_town_province_id FOREIGN KEY (province_id) REFERENCES province(id),
     UNIQUE INDEX uidx_town_province_town (name, province_id)
 );
-# client province_id could not necesserily be here
+
 CREATE TABLE IF NOT EXISTS client (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR (256) NOT NULL,
@@ -23,9 +23,7 @@ CREATE TABLE IF NOT EXISTS client (
     address VARCHAR(256) NOT NULL,
     post_code CHAR(5) NOT NULL,
     town_id INT UNSIGNED NOT NULL,
-    province_id INT UNSIGNED NOT NULL,
     telephone INT UNSIGNED NOT NULL,
-    CONSTRAINT fk_client_province_id FOREIGN KEY (province_id) REFERENCES province(id),
     CONSTRAINT fk_client_town_id FOREIGN KEY (town_id) REFERENCES town(id)
 );
 
@@ -34,9 +32,7 @@ CREATE TABLE IF NOT EXISTS shop (
     address VARCHAR(250) NOT NULL,
     post_code CHAR(5) NOT NULL,
     town_id INT UNSIGNED NOT NULL,
-    province_id INT UNSIGNED NOT NULL,
-    CONSTRAINT fk_town_id FOREIGN KEY (town_id) REFERENCES town(id),
-    CONSTRAINT fk_province_id FOREIGN KEY (province_id) REFERENCES province(id)
+    CONSTRAINT fk_town_id FOREIGN KEY (town_id) REFERENCES town(id)
 );
 
 CREATE TABLE IF NOT EXISTS product (
@@ -140,16 +136,16 @@ VALUES ('Lleida', 3),
 
 SELECT * FROM town;
 select * from client;
-INSERT INTO client (name, surnames, address, post_code, town_id, province_id, telephone)
-VALUES ('José Antonio', 'Velazquez Mayordomo', 'Avinguda de València 3, 4rt 5a', 25001, 1, 3, 674332211),
-        ('Maria Cristina', 'Garcia Garcia', 'Carrer Aribau 456, 4rt 5a', 08011, 11, 1, 654321234),
-        ('Juanito', 'Peque', 'Carrer Palafurjell 45, 4r 6r', 21004, 27, 2, 655435676);
+INSERT INTO client (name, surnames, address, post_code, town_id, telephone)
+VALUES ('José Antonio', 'Velazquez Mayordomo', 'Avinguda de València 3, 4rt 5a', 25001, 1, 674332211),
+        ('Maria Cristina', 'Garcia Garcia', 'Carrer Aribau 456, 4rt 5a', 08011, 11, 654321234),
+        ('Juanito', 'Peque', 'Carrer Palafurjell 45, 4r 6r', 21004, 27, 655435676);
 
-INSERT INTO shop (address, post_code, town_id, province_id)
-VALUES ('Avinguda Ricard Vinyes 45', 25003, 1, 3),
-       ('Avinguda Paralel 35', 08009, 11, 1),
-       ('Avinguda Pikachu 34', 29078, 21, 4),
-       ('Avinguda Ernest Bannach 23', 34588, 27, 2);
+INSERT INTO shop (address, post_code, town_id)
+VALUES ('Avinguda Ricard Vinyes 45', 25003, 1),
+       ('Avinguda Paralel 35', 08009, 11),
+       ('Avinguda Pikachu 34', 29078, 21),
+       ('Avinguda Ernest Bannach 23', 34588, 27);
 
 INSERT INTO product (name, description, category, image_url, price)
 VALUES ('Maxi Burger', 'Maxi Burger amb formatge i ceba', 'BURGER', 'http://fksgisgsf.jpeg', 8.00),
