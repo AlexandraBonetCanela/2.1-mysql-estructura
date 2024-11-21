@@ -89,6 +89,14 @@ CREATE TABLE IF NOT EXISTS playlist (
     UNIQUE INDEX uidx_name_user_id (name, user_id)
 );
 
+CREATE TABLE IF NOT EXISTS playlist_video (
+    playlist_id INT UNSIGNED NOT NULL,
+    video_id INT UNSIGNED NOT NULL,
+    CONSTRAINT fk_pv_playlist_id FOREIGN KEY (playlist_id) REFERENCES playlist(id),
+    CONSTRAINT fk_pv_video_id FOREIGN KEY (video_id) REFERENCES video(id),
+    PRIMARY KEY (playlist_id, video_id)
+);
+
 CREATE TABLE IF NOT EXISTS comment (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     text VARCHAR(256) NOT NULL,
