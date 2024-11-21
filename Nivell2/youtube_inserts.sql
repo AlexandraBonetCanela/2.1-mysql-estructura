@@ -80,3 +80,9 @@ INSERT INTO comment_reaction (reaction_type, time, user_id, comment_id) VALUES
 ('LIKE', '2024-10-03 15:30:00', 3, 3),
 ('LIKE', '2024-10-04 16:45:00', 4, 4),
 ('LIKE', '2024-10-05 18:00:00', 5, 5);
+
+INSERT INTO playlist_video(playlist_id, video_id) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(2, 4);

@@ -64,7 +64,6 @@ CREATE TABLE IF NOT EXISTS subscriber (
     subscriber_id INT UNSIGNED NOT NULL,
     CONSTRAINT fk_subscriber_channel_id FOREIGN KEY (channel_id) REFERENCES channel(id),
     CONSTRAINT fk_subscriber_subscriber_id FOREIGN KEY (subscriber_id) REFERENCES user(id),
-    UNIQUE INDEX uidx_subscriber_channel_subscriber (channel_id, subscriber_id),
     PRIMARY KEY (channel_id, subscriber_id)
 );
 
