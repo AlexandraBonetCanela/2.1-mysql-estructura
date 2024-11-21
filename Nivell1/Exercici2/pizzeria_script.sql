@@ -86,15 +86,23 @@ CREATE TABLE IF NOT EXISTS purchase_order_detail (
     CONSTRAINT fk_pod_purchase_order_id FOREIGN KEY (purchase_order_id) REFERENCES purchase_order(id)
 );
 
-CREATE TABLE pizza (
-    product_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    pizza_category_id INT UNSIGNED NOT NULL
-);
-
 CREATE TABLE pizza_category (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR (256) NOT NULL
+    name VARCHAR (256) NOT NULL,
+    UNIQUE INDEX udix_name(name)
 );
+
+
+CREATE TABLE pizza (
+    product_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    pizza_category_id INT UNSIGNED NOT NULL,
+    CONSTRAINT fk_pizza_product_id FOREIGN KEY (product_id) REFERENCES product(id),
+    CONSTRAINT fk_pizza_category_id FOREIGN KEY (pizza_category_id) REFERENCES pizza_category(id)
+);
+
+
+
+
 INSERT INTO province (name)
 VALUES ('Barcelona'),
        ('Girona'),
